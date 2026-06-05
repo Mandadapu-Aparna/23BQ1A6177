@@ -38,5 +38,18 @@ notifications = [
     )
 ]
 
+
+from datetime import datetime
+
+def calculate_priority(notification):
+    weight = WEIGHTS[notification.type]
+
+    age_minutes = (datetime.now() - notification.timestamp).total_seconds() / 60
+
+    score = (weight * 1000) - age_minutes
+
+    return score
+    
+
 for n in notifications:
-    print(n.title, n.type)
+    print(n.title, "->", calculate_priority(n))
